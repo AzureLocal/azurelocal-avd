@@ -101,8 +101,15 @@ if ($ConfigPath -eq "") {
     $ConfigPath = Join-Path $repoRoot "config\variables.yml"
 }
 if (-not (Test-Path $ConfigPath)) {
-    Write-Error "Config not found: $ConfigPath`nCopy config/variables.example.yml to config/variables.yml and fill in your values."
-    exit 1
+    $examplePath = Join-Path $repoRoot "config\variables.example.yml"
+    if (Test-Path $examplePath) {
+        New-Item -ItemType Directory -Path (Split-Path -Parent $ConfigPath) -Force | Out-Null
+        Copy-Item -Path $examplePath -Destination $ConfigPath -Force
+        Write-Host "[WARN] Config not found. Created from template: $ConfigPath" -ForegroundColor Yellow
+    } else {
+        Write-Error "Config not found: $ConfigPath`nTemplate also missing: $examplePath"
+        exit 1
+    }
 }
 
 try {

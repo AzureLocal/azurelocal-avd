@@ -25,7 +25,7 @@ session_hosts:
   gallery_image_id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-azurelocal/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages/img-win11-avd-m365"
   storage_path_id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-azurelocal/providers/Microsoft.AzureStackHCI/storageContainers/sp-vmstore-01"
 domain:
-  domain_fqdn: "iic.local"
+  domain_fqdn: "contoso.local"
   domain_join_username: "svc.domainjoin"
   domain_join_password: "keyvault://kv-iic-platform/domain-join-password"
 monitoring:

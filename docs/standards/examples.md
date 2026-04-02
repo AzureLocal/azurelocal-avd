@@ -8,7 +8,7 @@
 
 ## Policy
 
-All examples, sample configurations, and walkthroughs use **one** fictional company: **Infinite Improbability Corp (IIC)**.
+All examples, sample configurations, and walkthroughs use **one** fictional company: **Contoso (IIC)**.
 
 !!! warning "Mandatory"
     Never use `contoso`, `fabrikam`, `adventure-works`, `woodgrove`, `example.com`, or any real customer name.
@@ -20,13 +20,13 @@ All examples, sample configurations, and walkthroughs use **one** fictional comp
 
 | Attribute | Value |
 |-----------|-------|
-| **Full Name** | Infinite Improbability Corp |
+| **Full Name** | Contoso |
 | **Abbreviation** | IIC |
-| **Domain (public)** | `improbability.cloud` / `iic.cloud` |
-| **Domain (on-prem AD)** | `iic.local` |
+| **Domain (public)** | `contoso.cloud` / `iic.cloud` |
+| **Domain (on-prem AD)** | `contoso.local` |
 | **NetBIOS Name** | `IMPROBABLE` |
 | **Entra ID Tenant** | `improbability.onmicrosoft.com` |
-| **Email Pattern** | `user@improbability.cloud` |
+| **Email Pattern** | `user@contoso.cloud` |
 
 ---
 
@@ -91,7 +91,7 @@ azure_local:
 
 ### In Documentation
 
-> Infinite Improbability Corp deploys Azure Local clusters using IIC naming patterns,
+> Contoso deploys Azure Local clusters using IIC naming patterns,
 > with all configuration driven from a single `config/variables.yml` file.
 
 ---

@@ -150,9 +150,9 @@ identity:
                                        # Gets Desktop Virtualization User + VM User Login roles.
     avd_admins_group_id: "00000000-..." # Object ID of the admin group. Gets VM Administrator Login role. Optional.
   domain:
-    fqdn: "iic.local"                 # AD domain FQDN for domain join. Used by ad_only and hybrid_join.
+    fqdn: "contoso.local"                 # AD domain FQDN for domain join. Used by ad_only and hybrid_join.
     ou_path: "OU=AVD,OU=Computers,DC=iic,DC=local"  # OU where session host computer accounts are created.
-    join_account: "svc-domainjoin@iic.local"          # Service account with permission to join computers to domain.
+    join_account: "svc-domainjoin@contoso.local"          # Service account with permission to join computers to domain.
                                                        # Password pulled from Key Vault at deploy time.
   rbac:
     assign_roles: true                # Whether to create RBAC role assignments. Set to false if managing roles externally.

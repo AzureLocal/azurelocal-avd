@@ -54,7 +54,7 @@ session_hosts:
   storage_path_id: "/subscriptions/2caa0b8a-a1d6-4f0c-8c03-861787b8315c/resourceGroups/rg-c01-azl-eus-01/providers/Microsoft.AzureStackHCI/storageContainers/sp-tplabs-clus01-m3-vmstore-prd-01"
 
 domain:
-  domain_fqdn: "iic.local"
+  domain_fqdn: "contoso.local"
   domain_join_username: "svc.domainjoin"
   domain_join_password: "keyvault://kv-iic-platform/domain-join-password"
   domain_join_ou_path: "OU=AVD,OU=Computers,DC=iic,DC=local"
@@ -75,7 +75,7 @@ fslogix:
   enabled: true
   share_topology: "single"
   single_share:
-    vhd_path: "\\\\sofs-01.iic.local\\profiles$"
+    vhd_path: "\\\\sofs-01.contoso.local\\profiles$"
   split_shares:
     profile_vhd_path: ""
     office_vhd_path: ""

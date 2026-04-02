@@ -56,14 +56,14 @@ Every documentation page should include:
 
 ---
 
-## Fictional Company — Infinite Improbability Corp (IIC)
+## Fictional Company — Contoso (IIC)
 
 All examples must use IIC. See the [Examples & IIC Policy](examples.md) page for the full reference card.
 
 | Never Use | Use Instead |
 |-----------|-------------|
-| `contoso`, `fabrikam`, `northwind` | Infinite Improbability Corp |
-| `example.com`, `test.com` | `improbability.cloud` |
+| `contoso`, `fabrikam`, `northwind` | Contoso |
+| `example.com`, `test.com` | `contoso.cloud` |
 | Real customer names | IIC naming patterns |
 
 ---

@@ -6,6 +6,9 @@
     Reads config/variables.yml (YAML) and returns a hashtable. Resolves
     keyvault:// URIs by fetching secrets from Azure Key Vault at load time.
 
+    Also integrates with CanonicalVariable.psm1 for canonical path lookups
+    and alias resolution from the master registry (when available).
+
     All deployment scripts dot-source this module:
       . .\common\Config-Loader.ps1
       $config = Get-AVDConfig -ConfigPath '..\..\config\variables.yml'
@@ -17,6 +20,18 @@
     When $true (default), resolves keyvault:// URIs to plaintext values.
     Set to $false for dry-run / validation scenarios.
 #>
+
+# Try to load canonical variable module (optional — graceful fallback if not present)
+$script:CanonicalModulePath = Join-Path $PSScriptRoot 'CanonicalVariable.psm1'
+$script:CanonicalAvailable = $false
+if (Test-Path $script:CanonicalModulePath) {
+    try {
+        Import-Module $script:CanonicalModulePath -ErrorAction Stop
+        $script:CanonicalAvailable = $true
+    } catch {
+        Write-Verbose "CanonicalVariable module not loaded: $_"
+    }
+}
 
 function Get-AVDConfig {
     [CmdletBinding()]
@@ -126,4 +141,58 @@ function Test-AVDConfigSchema {
 
     Write-Host "Configuration passes structural validation." -ForegroundColor Green
     return $true
+}
+
+<#
+.SYNOPSIS
+    Resolves a canonical variable path with alias fallback.
+
+.DESCRIPTION
+    Wraps Get-CanonicalVariable from the canonical module. Falls back to
+    direct hashtable lookup if the canonical module is not available.
+
+.PARAMETER Path
+    Dot-notation path to resolve.
+
+.PARAMETER Config
+    Config hashtable to search (used as fallback when canonical module is unavailable).
+
+.PARAMETER Default
+    Default value if path not found.
+
+.EXAMPLE
+    $rg = Get-AVDCanonicalVariable -Path 'azure_platform.resource_groups.management' -Config $config
+#>
+function Get-AVDCanonicalVariable {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)]
+        [string]$Path,
+
+        [Parameter()]
+        [object]$Config,
+
+        $Default = $null
+    )
+
+    if ($script:CanonicalAvailable) {
+        $value = Get-CanonicalVariable -Path $Path -Default $null
+        if ($null -ne $value) { return $value }
+    }
+
+    # Fallback: direct hashtable traversal
+    if ($null -ne $Config) {
+        $current = $Config
+        foreach ($segment in $Path -split '\.') {
+            if ($null -eq $current) { return $Default }
+            if ($current -is [System.Collections.IDictionary] -and $current.Contains($segment)) {
+                $current = $current[$segment]
+            } else {
+                return $Default
+            }
+        }
+        return $current
+    }
+
+    return $Default
 }

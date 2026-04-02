@@ -19,7 +19,7 @@ All deployment tools read from a single central configuration file: `config/vari
 | Keys within sections | `snake_case` | `subscription_id`, `vm_memory_mb` |
 | Booleans | Descriptive name | `enable_entra_id_auth: true` |
 | Secrets | `keyvault://` URI | `keyvault://kv-name/secret-name` |
-| Example values | IIC fictional identity | `iic.local`, `rg-iic-avd-hp-eus-01`, `kv-iic-platform` |
+| Example values | IIC fictional identity | `contoso.local`, `rg-iic-avd-hp-eus-01`, `kv-iic-platform` |
 
 ---
 
@@ -135,7 +135,7 @@ session_hosts:
 
 ```yaml
 domain:
-  domain_fqdn: "iic.local"
+  domain_fqdn: "contoso.local"
   domain_join_username: "svc.domainjoin"
   domain_join_password: "keyvault://kv-iic-platform/domain-join-password"
   domain_join_ou_path: ""
@@ -143,7 +143,7 @@ domain:
 
 | Variable | Type | Required | Description | Default |
 |----------|------|:--------:|-------------|---------|
-| `domain.domain_fqdn` | string | **Yes** | Active Directory domain FQDN | `iic.local` |
+| `domain.domain_fqdn` | string | **Yes** | Active Directory domain FQDN | `contoso.local` |
 | `domain.domain_join_username` | string | **Yes** | Service account for domain join | — |
 | `domain.domain_join_password` | string | **Yes** | Key Vault URI for domain join password | — |
 | `domain.domain_join_ou_path` | string | No | Target OU — empty uses default Computers container | `""` |

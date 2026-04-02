@@ -32,8 +32,8 @@ all:
     avd_image_id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-azurelocal/providers/Microsoft.AzureStackHCI/galleryImages/win11-multisession-23h2"
     avd_vnet_id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-azurelocal/providers/Microsoft.AzureStackHCI/virtualNetworks/vnet-azurelocal-01"
     avd_subnet_name: "default"
-    avd_domain_fqdn: "iic.local"
-    avd_domain_join_user: "svc-domainjoin@iic.local"
+    avd_domain_fqdn: "contoso.local"
+    avd_domain_join_user: "svc-domainjoin@contoso.local"
     avd_ou_path: "OU=AVD,OU=Computers,DC=iic,DC=local"
 
     # Secrets – use ansible-vault or environment variables; do not store plaintext here

@@ -81,7 +81,7 @@ session_hosts:
 # Domain Join
 # -----------------------------------------------------------------------------
 domain:
-  domain_fqdn: "iic.local"
+  domain_fqdn: "contoso.local"
   domain_join_username: "svc.domainjoin"      # FQDN-qualified at deploy time: {domain_fqdn}\{username}
   domain_join_password: "keyvault://kv-iic-platform/domain-join-password"
   domain_join_ou_path: ""                     # Empty = default Computers container
@@ -110,18 +110,18 @@ fslogix:
 
   # Single share — one VHDx per user on a single SMB path
   single_share:
-    vhd_path: "\\\\sofs-01.iic.local\\profiles$"
+    vhd_path: "\\\\sofs-01.contoso.local\\profiles$"
 
   # Split topology — separate shares for profile and Office containers
   split_shares:
-    profile_vhd_path: "\\\\sofs-01.iic.local\\profiles$"
-    office_vhd_path: "\\\\sofs-01.iic.local\\odfc$"
+    profile_vhd_path: "\\\\sofs-01.contoso.local\\profiles$"
+    office_vhd_path: "\\\\sofs-01.contoso.local\\odfc$"
 
   # Cloud Cache — multi-site replication with ordered provider list
   cloud_cache:
     connections:
-      - "type=smb,connectionString=\\\\sofs-01.iic.local\\profiles$"
-      # - "type=smb,connectionString=\\\\sofs-02.iic.local\\profiles$"
+      - "type=smb,connectionString=\\\\sofs-01.contoso.local\\profiles$"
+      # - "type=smb,connectionString=\\\\sofs-02.contoso.local\\profiles$"
 
   profile_container:
     size_in_mb: 30000                         # Max VHDx size per user (default 30 GB)

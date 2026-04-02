@@ -46,10 +46,10 @@
     Name of the subnet within the VNet. Default: default.
 
 .PARAMETER DomainFqdn
-    Fully-qualified domain name to join (e.g. iic.local).
+    Fully-qualified domain name to join (e.g. contoso.local).
 
 .PARAMETER DomainJoinUser
-    UPN of the account used to join VMs to the domain (e.g. svc-domainjoin@iic.local).
+    UPN of the account used to join VMs to the domain (e.g. svc-domainjoin@contoso.local).
 
 .PARAMETER OuPath
     OU path for the computer account (e.g. OU=AVD,OU=Computers,DC=iic,DC=local).

@@ -41,8 +41,8 @@ $VnetId = '/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg
 $SubnetName = 'default'
 
 # ── Domain Join ──────────────────────────────────────────────────────
-$DomainFqdn = 'iic.local'
-$DomainJoinUser = 'svc-domainjoin@iic.local'
+$DomainFqdn = 'contoso.local'
+$DomainJoinUser = 'svc-domainjoin@contoso.local'
 $OuPath = 'OU=AVD,OU=Computers,DC=iic,DC=local'
 
 # ── Tags ─────────────────────────────────────────────────────────────

@@ -34,4 +34,4 @@ This repository follows the **org-wide AzureLocal standards** maintained on the 
 
 - **IaC tooling**: Terraform, Bicep, ARM, PowerShell, Ansible
 - **Config file**: `config/variables.example.yml` — see [Variable Reference](../reference/variables.md)
-- **Fictional company**: Infinite Improbability Corp (IIC) — see [IIC Policy](examples.md)
+- **Fictional company**: Contoso (IIC) — see [IIC Policy](examples.md)
