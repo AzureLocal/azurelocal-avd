@@ -46,7 +46,6 @@ jobs:
   pester:
     name: Pester Tests
     runs-on: ubuntu-latest
-    if: hashFiles('tests/powershell/**/*.Tests.ps1') != ''
 
     steps:
       - name: Checkout
