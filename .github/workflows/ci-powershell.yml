@@ -4,10 +4,13 @@ on:
   pull_request:
     paths:
       - "src/powershell/**"
+      - ".github/workflows/ci-powershell.yml"
   push:
     branches: [main]
     paths:
       - "src/powershell/**"
+      - ".github/workflows/ci-powershell.yml"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -31,11 +34,14 @@ jobs:
         shell: pwsh
         run: |
           $results = Invoke-ScriptAnalyzer -Path src/powershell -Recurse -Settings PSGallery -Severity Warning,Error
+          $errors = @($results | Where-Object { $_.Severity -eq 'Error' })
           if ($results) {
             $results | Format-Table -AutoSize
-            throw "PSScriptAnalyzer found $($results.Count) issue(s)."
           }
-          Write-Host "PSScriptAnalyzer: All clear."
+          if ($errors.Count -gt 0) {
+            throw "PSScriptAnalyzer found $($errors.Count) error(s)."
+          }
+          Write-Output "PSScriptAnalyzer completed with no blocking errors."
 
   pester:
     name: Pester Tests

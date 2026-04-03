@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate config/variables*.yml against config/schema/variables.schema.json."""
+"""Validate config/variables/*.yml against config/variables/schema/variables.schema.json."""
 
 import json
 import pathlib
@@ -26,12 +26,12 @@ def validate_file(schema: dict, path: pathlib.Path) -> bool:
 
 def main() -> int:
     root = pathlib.Path(__file__).resolve().parents[1]
-    schema_path = root / "config" / "schema" / "variables.schema.json"
+    schema_path = root / "config" / "variables" / "schema" / "variables.schema.json"
     with schema_path.open("r", encoding="utf-8") as handle:
         schema = json.load(handle)
 
-    targets = [root / "config" / "variables.example.yml"]
-    variables_file = root / "config" / "variables.yml"
+    targets = [root / "config" / "variables" / "variables.example.yml"]
+    variables_file = root / "config" / "variables" / "variables.yml"
     if variables_file.exists():
         targets.append(variables_file)
 
