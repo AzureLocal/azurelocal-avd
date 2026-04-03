@@ -51,7 +51,7 @@ jobs:
           from jsonschema import ValidationError, validate
 
           root = pathlib.Path('.').resolve()
-          schema = json.loads((root / 'config' / 'schema' / 'variables.schema.json').read_text(encoding='utf-8'))
+          schema = json.loads((root / 'config' / 'variables' / 'schema' / 'variables.schema.json').read_text(encoding='utf-8'))
           invalid_dir = root / 'tests' / 'schemas'
           invalid_files = sorted(invalid_dir.glob('invalid-*.yml'))
           if not invalid_files:
