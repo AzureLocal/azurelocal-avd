@@ -101,7 +101,7 @@ plugins:
 extra:
   analytics:
     provider: google
-    property: G-XXXXXXXXXX  # Replace with your GA4 Measurement ID
+    property: G-2D9XDHSXJW
   social:
     - icon: fontawesome/brands/x-twitter
       link: https://x.com/countrycloudboy
