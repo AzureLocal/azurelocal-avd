@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://azurelocal.github.io/azurelocal-avd/sitemap.xml

@@ -1,8 +1,8 @@
 site_name: Azure Virtual Desktop on Azure Local
 site_description: IaC and automation for deploying AVD on Azure Local
-site_url: https://azurelocal.github.io/aurelocal-avd/
-repo_url: https://github.com/AzureLocal/aurelocal-avd
-repo_name: AzureLocal/aurelocal-avd
+site_url: https://azurelocal.github.io/azurelocal-avd/
+repo_url: https://github.com/AzureLocal/azurelocal-avd
+repo_name: AzureLocal/azurelocal-avd
 
 theme:
   name: material
@@ -96,14 +96,18 @@ markdown_extensions:
 
 plugins:
   - search
+  - sitemap
 
 extra:
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX  # Replace with your GA4 Measurement ID
   social:
     - icon: fontawesome/brands/x-twitter
       link: https://x.com/countrycloudboy
       name: CountryCloudBoy on X
     - icon: fontawesome/brands/github
-      link: https://github.com/AzureLocal/aurelocal-avd
+      link: https://github.com/AzureLocal/azurelocal-avd
       name: GitHub Repository
     - icon: fontawesome/solid/globe
       link: https://azurelocal.cloud
