@@ -51,12 +51,12 @@ jobs:
         run: |
           if [ -d "config" ]; then
             missing=0
-            if [ ! -f "config/variables.example.yml" ]; then
-              echo "::error::Missing config/variables.example.yml"
+            if [ ! -f "config/variables/variables.example.yml" ]; then
+              echo "::error::Missing config/variables/variables.example.yml"
               missing=$((missing + 1))
             fi
-            if [ ! -f "config/schema/variables.schema.json" ]; then
-              echo "::error::Missing config/schema/variables.schema.json"
+            if [ ! -f "config/variables/schema/variables.schema.json" ]; then
+              echo "::error::Missing config/variables/schema/variables.schema.json"
               missing=$((missing + 1))
             fi
             if [ $missing -gt 0 ]; then

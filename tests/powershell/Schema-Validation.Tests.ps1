@@ -9,9 +9,9 @@
 #>
 
 BeforeAll {
-    $script:SchemaPath  = Join-Path $PSScriptRoot '../../config/schema/variables.schema.json'
+    $script:SchemaPath  = Join-Path $PSScriptRoot '../../config/variables/schema/variables.schema.json'
     $script:ExamplesDir = Join-Path $PSScriptRoot '../../config/examples'
-    $script:ExampleConfig = Join-Path $PSScriptRoot '../../config/variables.example.yml'
+    $script:ExampleConfig = Join-Path $PSScriptRoot '../../config/variables/variables.example.yml'
 }
 
 Describe 'Schema File' {

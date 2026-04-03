@@ -37,7 +37,7 @@ jobs:
           from jsonschema import validate, ValidationError
           from pathlib import Path
 
-          schema_path = Path('config/schema/variables.schema.json')
+          schema_path = Path('config/variables/schema/variables.schema.json')
           schema = json.loads(schema_path.read_text())
 
           examples = list(Path('config/examples').glob('*.yml'))
