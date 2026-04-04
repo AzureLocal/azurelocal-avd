@@ -1,25 +1,19 @@
 # Repo Management
 
-This folder contains repo planning, governance, delivery tracking, and working artifacts.
+This folder documents how this repository is configured and how its automation works.
 
-## Standard Layout
+## Contents
 
-| Path | Purpose |
+| File | Purpose |
 |------|---------|
-| `plans/` | Active implementation plans, design notes, and scoped work items |
-| `checklists/` | Audit lists, migration checklists, and operational gates |
-| `roadmaps/` | Milestones, release phases, and longer-horizon planning |
-| `reports/` | Discovery outputs, coverage reports, and analysis artifacts |
+| [`setup.md`](setup.md) | Branch protection, labels, secrets, CODEOWNERS, and replication guide |
+| [`automation.md`](automation.md) | Every GitHub Actions workflow — what it does, when it runs, secrets required |
+| [`canonical-variable-migration.md`](canonical-variable-migration.md) | In-progress tracking for the canonical variable migration (Wave 1) |
 | `scripts/` | Repo-management helper scripts |
-| `working/` | Drafts, scratch notes, and temporary working material |
 
 ## Canonical References
 
 - Label definitions: `azurelocal.github.io/.github/labels.yml`
 - Repository standard: `azurelocal.github.io/.github/repo-standard.md`
 - Standards source: `azurelocal.github.io/standards/`
-
-## Notes
-
-Use `repo-management/` for planning and coordination artifacts.
-Use `standards/` at the repo root for canonical standards.
+- Repository management model: `azurelocal.github.io/standards/repository-management.mdx`
