@@ -1,80 +1,9 @@
 name: Validate Repo Structure
+
 on:
   pull_request:
     branches: [main]
 
 jobs:
-  check-structure:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Check required root files
-        run: |
-          missing=0
-          for f in README.md CONTRIBUTING.md LICENSE CHANGELOG.md .gitignore; do
-            if [ ! -f "$f" ]; then
-              echo "::error::Missing required file: $f"
-              missing=$((missing + 1))
-            fi
-          done
-          if [ $missing -gt 0 ]; then
-            echo "::error::$missing required root file(s) missing"
-            exit 1
-          fi
-          echo "All required root files present"
-
-      - name: Check required directories
-        run: |
-          missing=0
-          for d in docs .github; do
-            if [ ! -d "$d" ]; then
-              echo "::error::Missing required directory: $d/"
-              missing=$((missing + 1))
-            fi
-          done
-          if [ $missing -gt 0 ]; then
-            echo "::error::$missing required directory(s) missing"
-            exit 1
-          fi
-          echo "All required directories present"
-
-      - name: Check PR template
-        run: |
-          if [ ! -f ".github/PULL_REQUEST_TEMPLATE.md" ]; then
-            echo "::error::Missing .github/PULL_REQUEST_TEMPLATE.md"
-            exit 1
-          fi
-          echo "PR template found"
-
-      - name: Check config structure (if config dir exists)
-        run: |
-          if [ -d "config" ]; then
-            missing=0
-            if [ ! -f "config/variables/variables.example.yml" ]; then
-              echo "::error::Missing config/variables/variables.example.yml"
-              missing=$((missing + 1))
-            fi
-            if [ ! -f "config/variables/schema/variables.schema.json" ]; then
-              echo "::error::Missing config/variables/schema/variables.schema.json"
-              missing=$((missing + 1))
-            fi
-            if [ $missing -gt 0 ]; then
-              exit 1
-            fi
-            echo "Config structure valid"
-          else
-            echo "No config/ directory — skipping config checks"
-          fi
-
-      - name: Check variable reference doc (if config dir exists)
-        run: |
-          if [ -d "config" ]; then
-            if [ ! -f "docs/reference/variables.md" ]; then
-              echo "::error::Missing docs/reference/variables.md (required when config/ exists)"
-              exit 1
-            fi
-            echo "Variable reference doc found"
-          else
-            echo "No config/ directory — skipping variable reference check"
-          fi
+  call-shared:
+    uses: AzureLocal/.github/.github/workflows/reusable-validate-structure.yml@main
