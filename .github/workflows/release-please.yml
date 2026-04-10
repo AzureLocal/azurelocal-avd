@@ -5,7 +5,14 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
-  call-shared:
-    uses: AzureLocal/.github/.github/workflows/reusable-release-please.yml@main
-    secrets: inherit
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
