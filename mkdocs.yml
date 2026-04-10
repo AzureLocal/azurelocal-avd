@@ -1,5 +1,6 @@
 site_name: Azure Virtual Desktop on Azure Local
 site_description: IaC and automation for deploying AVD on Azure Local
+site_author: Azure Local Cloud
 site_url: https://azurelocal.github.io/azurelocal-avd/
 repo_url: https://github.com/AzureLocal/azurelocal-avd
 repo_name: AzureLocal/azurelocal-avd
@@ -114,5 +115,5 @@ extra:
   homepage: https://azurelocal.cloud
 
 copyright: >-
-  Copyright &copy; 2025 Azure Local. Designed and maintained by
+  Copyright &copy; 2026 Azure Local. Designed and maintained by
   <a href="https://www.hybridsolutions.cloud">Hybrid Cloud Solutions</a>.
