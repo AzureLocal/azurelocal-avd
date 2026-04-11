@@ -29,8 +29,8 @@ theme:
     - content.code.annotate
     - search.suggest
     - search.highlight
-  logo: assets/images/avd-icon.svg
-  favicon: assets/images/avd-icon.svg
+  logo: assets/images/azurelocal-avd-icon.svg
+  favicon: assets/images/azurelocal-avd-icon.svg
   icon:
     repo: fontawesome/brands/github
 
