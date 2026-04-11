@@ -1,5 +1,11 @@
 # azurelocal-avd
 
+![Azure Virtual Desktop on Azure Local](docs/assets/images/azurelocal-avd-banner.svg)
+
+[![Azure Local](https://img.shields.io/badge/Azure%20Local-azurelocal.cloud-0078D4?logo=microsoft-azure)](https://azurelocal.cloud)
+
+Documentation: [azurelocal.cloud](https://azurelocal.cloud) | Solutions: [Azure Local Solutions](https://azurelocal.cloud)
+
 Infrastructure-as-code and automation for deploying **Azure Virtual Desktop (AVD)** on **Azure Local** (formerly Azure Stack HCI).
 
 ---
