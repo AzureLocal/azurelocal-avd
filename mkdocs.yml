@@ -64,16 +64,6 @@ nav:
       - Host Pool Options: reference/host-pool-options.md
       - RBAC Reference: reference/rbac.md
       - Docs Validation Checklist: reference/docs-validation-checklist.md
-  - Standards:
-      - Overview: standards/index.md
-      - Documentation: standards/documentation.md
-      - Scripting: standards/scripting.md
-      - Variables: standards/variables.md
-      - Naming Conventions: standards/naming.md
-      - Solutions: standards/solutions.md
-      - Infrastructure: standards/infrastructure.md
-      - Automation: standards/automation.md
-      - Examples & IIC: standards/examples.md
   - Roadmap: roadmap.md
   - Contributing: contributing.md
 
