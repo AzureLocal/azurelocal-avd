@@ -1,0 +1,19 @@
+# AzureLocal platform self-descriptor
+# Schema: https://AzureLocal.github.io/platform/reference/platform-metadata/
+
+platformVersion: 1
+repoType: iac-solution
+
+adopts:
+  standards: true
+  reusableWorkflows:
+    - mkdocs-deploy
+    - iac-validate
+    - drift-check
+    - release-please
+    - validate-structure
+    - add-to-project
+  maproom: false
+  trailhead: false
+
+lastAudited: 2026-04-13

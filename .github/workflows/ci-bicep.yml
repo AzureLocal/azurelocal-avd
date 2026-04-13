@@ -1,44 +1,18 @@
-name: CI — Bicep Build
+name: CI — Bicep Validate
 
 on:
   pull_request:
     paths:
-      - "src/bicep/**"
+      - 'src/bicep/**'
   push:
     branches: [main]
     paths:
-      - "src/bicep/**"
-
-permissions:
-  contents: read
+      - 'src/bicep/**'
 
 jobs:
-  bicep-build:
-    name: Bicep Build & Lint
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: src/bicep
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Azure CLI — Bicep Build
-        uses: azure/CLI@v2
-        with:
-          inlineScript: |
-            az bicep version
-            for f in src/bicep/*.bicep; do
-              echo "Building $f..."
-              az bicep build --file "$f" --stdout > /dev/null
-            done
-
-      - name: Azure CLI — Bicep Lint
-        uses: azure/CLI@v2
-        with:
-          inlineScript: |
-            for f in src/bicep/*.bicep; do
-              echo "Linting $f..."
-              az bicep lint --file "$f"
-            done
+  iac:
+    uses: AzureLocal/platform/.github/workflows/reusable-iac-validate.yml@main
+    with:
+      run-bicep: true
+      run-terraform: false
+      bicep-path: src/bicep

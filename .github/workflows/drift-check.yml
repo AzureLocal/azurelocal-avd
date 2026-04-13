@@ -1,0 +1,12 @@
+name: Drift Check
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'   # every Monday at 09:00 UTC
+  workflow_dispatch:
+
+jobs:
+  drift:
+    uses: AzureLocal/platform/.github/workflows/reusable-drift-check.yml@main
+    with:
+      required-files: 'CHANGELOG.md,mkdocs.yml,.github/workflows/deploy-docs.yml'

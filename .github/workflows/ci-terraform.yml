@@ -3,58 +3,17 @@ name: CI — Terraform Validate
 on:
   pull_request:
     paths:
-      - "src/terraform/**"
-      - "config/**"
+      - 'src/terraform/**'
+      - 'config/**'
   push:
     branches: [main]
     paths:
-      - "src/terraform/**"
-
-permissions:
-  contents: read
+      - 'src/terraform/**'
 
 jobs:
-  terraform-validate:
-    name: Terraform Format & Validate
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: src/terraform
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: "1.5.0"
-
-      - name: Terraform Format Check
-        run: terraform fmt -check -recursive
-
-      - name: Terraform Init
-        run: terraform init -backend=false
-
-      - name: Terraform Validate
-        run: terraform validate
-
-  tflint:
-    name: TFLint
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: src/terraform
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup TFLint
-        uses: terraform-linters/setup-tflint@v4
-
-      - name: Init TFLint
-        run: tflint --init
-
-      - name: Run TFLint
-        run: tflint --format compact
+  iac:
+    uses: AzureLocal/platform/.github/workflows/reusable-iac-validate.yml@main
+    with:
+      run-bicep: false
+      run-terraform: true
+      terraform-path: src/terraform
