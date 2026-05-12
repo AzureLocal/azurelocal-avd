@@ -2,14 +2,15 @@
 
 ## What this repo is
 
-MkDocs documentation site in the AzureLocal organization. This repo publishes technical documentation and is built with MkDocs Material.
+![Azure Virtual Desktop on Azure Local](docs/assets/images/azurelocal-avd-banner.svg)
 
 ---
 
 ## ADO project details
 
 - **ADO org:** https://dev.azure.com/hybridcloudsolutions
-- **ADO project:** AzureLocal
+- **ADO project:** Azure Local
+- **Area path:** Platform Engineering\Onboarding
 - **Work item format:** `AB#<id>` in commit messages and PR descriptions
 
 ---
@@ -28,7 +29,7 @@ This repo follows all HCS platform standards defined in the Platform Engineering
 | Claude Code | [docs/standards/claude-code.md](https://dev.azure.com/hybridcloudsolutions/Platform%20Engineering/_git/Platform%20Engineering?path=/docs/standards/claude-code.md) |
 
 Key rules:
-- All scripts: PowerShell 7+ only. `#Requires -Version 7.0`, `Set-StrictMode -Version Latest`, `\Stop = 'Stop'`.
+- All scripts: PowerShell 7+ only. `#Requires -Version 7.0`, `Set-StrictMode -Version Latest`, ` $ErrorActionPreference = 'Stop'`.
 - All docs: Markdown only. No Word documents in any repo.
 - Commit format: `type(scope): short description` — types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`
 - No secrets, tokens, or credentials committed to any file.
@@ -44,9 +45,84 @@ Key rules:
 | Azure login | kris@hybridsolutions.cloud |
 | Key Vault | kv-hcs-vault-01 |
 
-Load environment before starting a session:
+### Environment variables expected
+
+| Variable | Source | Purpose |
+|---|---|---|
+| `GITHUB_TOKEN` | kv-hcs-vault-01 via Load-HCSEnvironment.ps1 | GitHub CLI and git operations |
+| `AZURE_DEVOPS_EXT_PAT` | kv-hcs-vault-01 via Load-HCSEnvironment.ps1 | ADO CLI (`az boards`, `az devops`) |
+Load before starting a session:
 ```powershell
 . E:\git\platform\scripts\Load-HCSEnvironment.ps1
+```
+
+### Build and test commands
+
+```
+mkdocs build
+mkdocs serve  # http://127.0.0.1:8000
+```
+
+---
+
+## Repo structure
+
+```
+azurelocal-avd/
+├── .claude/
+    └── settings.json
+├── .github/
+    ├── workflows/
+    └── CODEOWNERS
+├── config/
+    ├── examples/
+    ├── variables/
+    └── README.md
+├── docs/
+    ├── architecture/
+    ├── assets/
+    ├── audit/
+    ├── guides/
+    └── operations/
+├── examples/
+    ├── pipelines/
+    └── README.md
+├── logs/
+    └── .gitkeep
+├── repo-management/
+    ├── scripts/
+    ├── automation.md
+    ├── canonical-variable-migration.md
+    ├── README.md
+    └── setup.md
+├── scripts/
+    ├── deploy-avd-control-plane.sh
+    ├── deploy-session-hosts.sh
+    ├── parameters.example.env
+    ├── README.md
+    └── validate-config.py
+├── src/
+    ├── ansible/
+    ├── arm/
+    ├── bicep/
+    ├── powershell/
+    └── terraform/
+├── styles/
+    └── Microsoft/
+├── tests/
+    ├── powershell/
+    ├── schemas/
+    ├── README.md
+    ├── Test-AVDDeployment.Tests.ps1
+    └── validate-config-schema.py
+├── .azurelocal-platform.yml
+├── .gitignore
+├── .release-please-manifest.json
+├── .vale.ini
+├── azurelocal-avd.code-workspace
+├── CHANGELOG.md
+├── CLAUDE.md
+└── ...
 ```
 
 ---
@@ -62,10 +138,19 @@ Load environment before starting a session:
 - `pip install` for MkDocs plugins
 
 **Always confirm before:**
-- Any operation that modifies Azure resources
-- Installing or upgrading dependencies
+- Creating or deleting Azure resources
+- Any `az` CLI write operation that modifies Azure state
 - Running destructive operations
 - Making API calls to external services
+
+
+---
+
+## Subagents available in this repo
+
+- `azurelocal-avd-engineer` (model: sonnet) — Expert in `azurelocal-avd`: deep knowledge of this repo's structure, conventions, and development workflow.
+
+User-level agents (available in every repo session): `triage-lookup`, `markdown-prose-editor`, `azurelocal-domain-expert`, `mkdocs-material-doctor`, `turner-module-scaffold-engineer`, `mms-2026-demo-presenter`.
 
 ---
 
