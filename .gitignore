@@ -56,3 +56,8 @@ site/
 
 # Source working folder (integrated into repo structure — not tracked directly)
 avd/
+
+
+# Claude Code local settings (logs and machine-local overrides only)
+.claude/logs/
+.claude/settings.local.json
