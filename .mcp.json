@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "hcs-governance": {
+      "type": "http",
+      "url": "https://mcp.hybridsolutions.cloud/mcp"
+    }
+  }
+}

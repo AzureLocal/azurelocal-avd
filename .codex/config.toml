@@ -1,0 +1,12 @@
+# Codex project config for azurelocal-avd
+# Codex reads repo-level config from .codex/config.toml in trusted projects.
+# Codex has no agent-definition files and no hook system — do not add either.
+# Repo instructions live in AGENTS.md, which Codex reads natively.
+
+# HCS Governance MCP — remote Streamable HTTP server.
+# Older Codex builds require enabling the rmcp client for HTTP servers;
+# uncomment the next line if your Codex version does not connect over url alone:
+# experimental_use_rmcp_client = true
+
+[mcp_servers.hcs-governance]
+url = "https://mcp.hybridsolutions.cloud/mcp"
