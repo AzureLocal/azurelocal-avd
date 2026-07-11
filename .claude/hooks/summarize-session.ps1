@@ -2,7 +2,7 @@
 # Event: Stop
 # Configure: set $logDir to your repo's .claude/logs/ path
 
-$logDir = "{{REPO_ROOT}}\.claude\logs"
+$logDir = "D:\git\azurelocal\azurelocal-avd\.claude\logs"
 
 if (-not (Test-Path $logDir)) { New-Item -ItemType Directory -Path $logDir -Force | Out-Null }
 
