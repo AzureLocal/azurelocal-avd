@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1A86D8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#003A70;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#001A3A" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="200" height="200" rx="38" ry="38" fill="url(#bgGrad)"/>
+
+  <!-- Grid lines -->
+  <g opacity="0.08" stroke="white" stroke-width="0.8">
+    <line x1="0" y1="50" x2="200" y2="50"/>
+    <line x1="0" y1="100" x2="200" y2="100"/>
+    <line x1="0" y1="150" x2="200" y2="150"/>
+    <line x1="50" y1="0" x2="50" y2="200"/>
+    <line x1="100" y1="0" x2="100" y2="200"/>
+    <line x1="150" y1="0" x2="150" y2="200"/>
+  </g>
+
+  <!-- Badge -->
+  <g transform="translate(100,32)" filter="url(#shadow)">
+    <polygon points="0,-14 14,-5 10,12 0,7 -10,12 -14,-5" fill="#50C2E9" stroke="#2AABE0" stroke-width="0.8"/>
+    <text x="0" y="3" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="9" fill="white">V</text>
+  </g>
+
+  <!-- Main circle -->
+  <g filter="url(#shadow)">
+    <circle cx="100" cy="100" r="46" fill="white"/>
+    <circle cx="100" cy="100" r="38" fill="url(#bgGrad)"/>
+
+    <!-- Monitor screen frame -->
+    <rect x="73" y="79" width="54" height="35" rx="3" fill="none" stroke="#50C2E9" stroke-width="2.2" opacity="0.95"/>
+    <!-- Screen sessions -->
+    <rect x="77" y="83" width="21" height="13" rx="1.5" fill="#50C2E9" opacity="0.70"/>
+    <rect x="101" y="83" width="22" height="13" rx="1.5" fill="#50C2E9" opacity="0.45"/>
+    <rect x="77" y="99" width="46" height="11" rx="1.5" fill="#50C2E9" opacity="0.28"/>
+    <!-- Stand -->
+    <line x1="100" y1="114" x2="100" y2="122" stroke="#50C2E9" stroke-width="2.2" opacity="0.85"/>
+    <line x1="88" y1="122" x2="112" y2="122" stroke="#50C2E9" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+
+    <circle cx="100" cy="100" r="38" fill="none" stroke="white" stroke-width="1.5" opacity="0.2"/>
+  </g>
+
+  <text x="100" y="168" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-weight="bold" font-size="13" fill="white" letter-spacing="1" opacity="0.95">AZURE LOCAL</text>
+  <text x="100" y="186" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-weight="bold" font-size="17" fill="#50C2E9" letter-spacing="2" opacity="0.95">AVD</text>
+</svg>
