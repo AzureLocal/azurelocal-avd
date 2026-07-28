@@ -1,10 +1,12 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
+  ignoreDeadLinks: true,
   base: '/azurelocal-avd/',
-  title: "azurelocal-avd Documentation",
+  title: "Azure Virtual Desktop on Azure Local",
   description: "Governed centrally by HCS Platform Engineering standards",
   themeConfig: {
+    logo: '/assets/images/azurelocal-avd-icon.svg',
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Architecture', link: '/architecture' },
@@ -27,5 +29,6 @@ export default defineConfig({
     }
   }
 })
+
 
 
