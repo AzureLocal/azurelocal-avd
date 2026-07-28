@@ -1,0 +1,26 @@
+# Azure DevOps Pipeline Trigger for azurelocal-avd
+# Governed centrally in HCS Platform Engineering
+
+trigger:
+  branches:
+    include:
+      - main
+      - master
+      - feature/*
+
+pr:
+  branches:
+    include:
+      - main
+      - master
+
+resources:
+  repositories:
+    - repository: platform
+      type: git
+      name: Platform Engineering/platform
+
+extends:
+  template: .ado/pipelines/reusable/iac-solution-ci.yml@platform
+  parameters:
+    solutionName: 'azurelocal-avd'

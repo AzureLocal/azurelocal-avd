@@ -1,0 +1,16 @@
+{
+  "name": "azurelocal-avd-docs",
+  "version": "1.0.0",
+  "description": "Canonical VitePress documentation for HCS / AzureLocal repository",
+  "private": true,
+  "scripts": {
+    "docs:dev": "vitepress dev .",
+    "docs:build": "vitepress build .",
+    "docs:preview": "vitepress preview ."
+  },
+  "devDependencies": {
+    "vitepress": "^1.2.0",
+    "vue": "^3.4.0"
+  }
+}
+
