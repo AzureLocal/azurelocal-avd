@@ -12,22 +12,24 @@ Without a scaling plan, you either leave all hosts running 24/7 (expensive), or 
 
 > *Open the [draw.io source](../assets/diagrams/avd-scaling.drawio) for an editable version.*
 
-!!! note "Pooled vs. Personal"
-    **Pooled host pools** support full capacity-based autoscaling (this guide's focus). **Personal host pools** now also support scaling plans, but with a different model — personal scaling plans deallocate VMs based on user session state (signed out / disconnected), not capacity thresholds. This repo's IaC deploys scaling plans only for Pooled pools: `count = var.scaling_enabled && var.host_pool_type == "Pooled" ? 1 : 0`.
-
+> [!NOTE]
+> **Pooled vs. Personal**
+> **Pooled host pools** support full capacity-based autoscaling (this guide's focus). **Personal host pools** now also support scaling plans, but with a different model — personal scaling plans deallocate VMs based on user session state (signed out / disconnected), not capacity thresholds. This repo's IaC deploys scaling plans only for Pooled pools: `count = var.scaling_enabled && var.host_pool_type == "Pooled" ? 1 : 0`.
+>
 ---
 
 ## Azure Local Considerations
 
 Scaling plans work on Azure Local session hosts — Microsoft explicitly supports both **power management autoscaling** and **Start VM on Connect** for session hosts on Azure and Azure Local. However, running on-premises introduces important differences compared to Azure-hosted VMs:
 
-!!! warning "Azure Local-Specific Caveats"
-    1. **Fixed hardware capacity** — Unlike Azure, you cannot burst beyond your physical cluster's compute capacity. Design `minimum_hosts_pct` and capacity thresholds conservatively. If all physical cores are committed, the autoscaler cannot power on additional VMs.
-    2. **Azure connectivity required** — The AVD autoscaler is a cloud-hosted service. It sends power commands through Azure Arc to the on-premises cluster. If the Azure Local cluster loses connectivity to Azure, scaling actions will not execute until the connection is restored.
-    3. **Power action latency** — Starting an Arc-enabled VM on Azure Local involves Azure API → Arc agent → Azure Local cluster → Hyper-V. This may add a few seconds of latency compared to starting an Azure VM directly. Factor this into ramp-up `minimum_hosts_pct` to pre-warm hosts before peak.
-    4. **Dynamic autoscaling (preview) is not confirmed for Azure Local** — Dynamic autoscaling (which creates/deletes VMs, not just power on/off) is currently only available in Azure. Azure Local VM provisioning requires Arc VM creation with specific logical networks and on-premises images, which the dynamic autoscaler does not support.
-    5. **Host pool isolation** — Azure and Azure Local session hosts cannot be mixed in the same host pool. Create separate host pools per environment.
-
+> [!WARNING]
+> **Azure Local-Specific Caveats**
+> 1. **Fixed hardware capacity** — Unlike Azure, you cannot burst beyond your physical cluster's compute capacity. Design `minimum_hosts_pct` and capacity thresholds conservatively. If all physical cores are committed, the autoscaler cannot power on additional VMs.
+> 2. **Azure connectivity required** — The AVD autoscaler is a cloud-hosted service. It sends power commands through Azure Arc to the on-premises cluster. If the Azure Local cluster loses connectivity to Azure, scaling actions will not execute until the connection is restored.
+> 3. **Power action latency** — Starting an Arc-enabled VM on Azure Local involves Azure API → Arc agent → Azure Local cluster → Hyper-V. This may add a few seconds of latency compared to starting an Azure VM directly. Factor this into ramp-up `minimum_hosts_pct` to pre-warm hosts before peak.
+> 4. **Dynamic autoscaling (preview) is not confirmed for Azure Local** — Dynamic autoscaling (which creates/deletes VMs, not just power on/off) is currently only available in Azure. Azure Local VM provisioning requires Arc VM creation with specific logical networks and on-premises images, which the dynamic autoscaler does not support.
+> 5. **Host pool isolation** — Azure and Azure Local session hosts cannot be mixed in the same host pool. Create separate host pools per environment.
+>
 | Feature | Azure VMs | Azure Local (Arc VMs) |
 |---|---|---|
 | Power management autoscale | Supported | Supported |
@@ -203,9 +205,9 @@ This role assignment is **not** created by the scaling plan itself — your iden
 | Scope | Subscription containing session host VMs |
 | Config field | `control_plane.start_vm_on_connect: true` |
 
-!!! tip
-    Use **Start VM on Connect** together with scaling plans. During ramp-up, the scaling plan pre-warms hosts. During off-peak, if the scaling plan has powered off most hosts, Start VM on Connect ensures an after-hours user can still trigger a host to start automatically.
-
+> [!TIP]
+> Use **Start VM on Connect** together with scaling plans. During ramp-up, the scaling plan pre-warms hosts. During off-peak, if the scaling plan has powered off most hosts, Start VM on Connect ensures an after-hours user can still trigger a host to start automatically.
+>
 !!! note
     The RBAC roles are different: scaling plans need **Power On/Off Contributor** (can start AND stop), while Start VM on Connect needs **Power On Contributor** (can only start). Both must be assigned at the subscription level for Azure Local to work correctly.
 

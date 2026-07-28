@@ -2,9 +2,10 @@
 
 This guide explains every aspect of identity configuration for AVD on Azure Local — the two supported authentication strategies, exactly what RBAC roles get assigned and where, the VM extensions deployed on each session host (Arc-enabled VMs), and how each IaC tool implements it.
 
-!!! warning "Azure Local Constraint — Entra-only Join NOT Supported"
-    On Azure Local, session hosts are Arc-enabled VMs (`Microsoft.HybridCompute/machines`), NOT standard Azure VMs. Arc-enabled VMs **do not support Entra-only join**. Only **AD-Only** and **Hybrid Join** are valid identity strategies. If you need SSO and Conditional Access, use **Hybrid Join** (recommended). Entra-only join is only available for standard Azure VMs in cloud-based AVD deployments.
-
+> [!WARNING]
+> **Azure Local Constraint — Entra-only Join NOT Supported**
+> On Azure Local, session hosts are Arc-enabled VMs (`Microsoft.HybridCompute/machines`), NOT standard Azure VMs. Arc-enabled VMs **do not support Entra-only join**. Only **AD-Only** and **Hybrid Join** are valid identity strategies. If you need SSO and Conditional Access, use **Hybrid Join** (recommended). Entra-only join is only available for standard Azure VMs in cloud-based AVD deployments.
+>
 ## Why Identity Configuration Matters
 
 AVD session hosts are Arc-enabled VMs on Azure Local that users log into remotely. Something needs to authenticate those users. There are two supported ways to do it on Azure Local, each with different infrastructure requirements, user experience, and security capabilities. The choice affects:

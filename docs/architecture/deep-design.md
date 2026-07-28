@@ -8,9 +8,10 @@ This page provides detailed architecture and design decision guidance for AVD on
 
 The AVD control plane lives entirely in Azure and is subscription-scoped. All resources are idempotent and managed as Infrastructure as Code. The control plane must be deployed before any session hosts can register.
 
-!!! tip "Diagram source"
-    The draw.io source for this diagram is at `docs/assets/diagrams/control-plane.drawio`. Open in draw.io → File → Export As → PNG → save to `docs/assets/images/control-plane.png`.
-
+> [!TIP]
+> **Diagram source**
+> The draw.io source for this diagram is at `docs/assets/diagrams/control-plane.drawio`. Open in draw.io → File → Export As → PNG → save to `docs/assets/images/control-plane.png`.
+>
 ![AVD Control Plane — Components and Relationships](../assets/images/control-plane.png)
 
 | Component | Location | Responsibility |
@@ -38,9 +39,10 @@ Treat the control plane as subscription-scoped and idempotent. Deploy it once; a
 
 Three topology options exist for Azure Local AVD. The choice drives how session hosts reach profile storage, how fault isolation works, and what your identity and network requirements look like. Pick once — topology influences IP planning, CSV capacity, and anti-affinity rule scope.
 
-!!! tip "Diagram source"
-    Draw.io source: `docs/assets/diagrams/avd-session-host-topology.drawio`. Export → PNG → `docs/assets/images/avd-session-host-topology.png`.
-
+> [!TIP]
+> **Diagram source**
+> Draw.io source: `docs/assets/diagrams/avd-session-host-topology.drawio`. Export → PNG → `docs/assets/images/avd-session-host-topology.png`.
+>
 ![AVD Session Host Topology Options](../assets/images/avd-session-host-topology.png)
 
 ### Option 1 — Single Cluster
@@ -115,9 +117,10 @@ Full SOFS infrastructure is covered in the companion repository: [azurelocal-sof
 
 On Azure Local, AVD session hosts are Arc VMs — they must be Active Directory domain-joined. Pure Entra ID join (without AD DS) is only possible for cloud-hosted Azure VMs, not Arc VMs on Azure Local. This constrains your identity pattern choices and simplifies your FSLogix SMB authentication path.
 
-!!! tip "Diagram source"
-    Draw.io source: `docs/assets/diagrams/avd-identity-decision.drawio`. Export → PNG → `docs/assets/images/avd-identity-decision.png`.
-
+> [!TIP]
+> **Diagram source**
+> Draw.io source: `docs/assets/diagrams/avd-identity-decision.drawio`. Export → PNG → `docs/assets/images/avd-identity-decision.png`.
+>
 ![AVD Identity Pattern Decision](../assets/images/avd-identity-decision.png)
 
 ### AD DS Domain Join
@@ -158,9 +161,10 @@ Session hosts are AD domain-joined **and** registered in Microsoft Entra ID via 
 
 Entra-joined session hosts with no on-premises AD DS. This requires FSLogix Cloud Cache (`CCDLocations` instead of `VHDLocations`) pointing at Azure Files or Azure Blob Storage, because SOFS Kerberos authentication requires an AD DS domain that doesn't exist in this pattern.
 
-!!! warning "Significant complexity increase"
-    Cloud Cache introduces 2–3× write amplification (every profile write is written to local cache AND asynchronously flushed to all cloud providers). During logon storms this matters. Monitor cache flush latency and set `CCDWriteBehindDelay` appropriately.
-
+> [!WARNING]
+> **Significant complexity increase**
+> Cloud Cache introduces 2–3× write amplification (every profile write is written to local cache AND asynchronously flushed to all cloud providers). During logon storms this matters. Monitor cache flush latency and set `CCDWriteBehindDelay` appropriately.
+>
 | Aspect | Impact |
 |--------|--------|
 | **Profile writes** | 2–3× amplification (local cache + all CCDLocations providers) |
@@ -188,9 +192,10 @@ Session hosts need outbound access to Azure for broker, identity, and telemetry 
 | Azure Arc endpoints (`*.his.arc.azure.com`, `*.guestconfiguration.azure.com`) | 443 | HTTPS | Arc VM management and extensions |
 | Key Vault (`*.vault.azure.net`) | 443 | HTTPS | Secret retrieval during provisioning |
 
-!!! note "No inbound firewall rules required"
-    AVD uses a reverse-connect transport — the session host initiates the outbound connection to the gateway. Clients (end users) connect to the AVD gateway in Azure, not directly to session hosts. No inbound RDP port needs to be open on the on-premises firewall.
-
+> [!NOTE]
+> **No inbound firewall rules required**
+> AVD uses a reverse-connect transport — the session host initiates the outbound connection to the gateway. Clients (end users) connect to the AVD gateway in Azure, not directly to session hosts. No inbound RDP port needs to be open on the on-premises firewall.
+>
 ### SMB and Profile Traffic (Session Hosts → SOFS)
 
 | Traffic | Port | Protocol | Requirement |
@@ -224,9 +229,10 @@ Session hosts must resolve **both** on-premises names and Azure endpoints from t
 
 The deployment follows a fixed 9-phase sequence. Phase 0 is a planning gate — nothing gets provisioned until `config/variables.yml` passes schema validation and the canonical config is locked. Phases 1–8 are idempotent: re-run any phase to bring resources back to the declared state.
 
-!!! tip "Diagram source"
-    Draw.io source: `docs/assets/diagrams/avd-deployment-phases.drawio`. Export → PNG → `docs/assets/images/avd-deployment-phases.png`.
-
+> [!TIP]
+> **Diagram source**
+> Draw.io source: `docs/assets/diagrams/avd-deployment-phases.drawio`. Export → PNG → `docs/assets/images/avd-deployment-phases.png`.
+>
 ![AVD Deployment Phases — 9-Phase Model](../assets/images/avd-deployment-phases.png)
 
 | Phase | Description | Primary Owner | Supporting Tools |
@@ -280,9 +286,10 @@ The control plane is defined entirely in IaC. Recovery is a re-deployment, not a
 | Log Analytics Workspace | Re-deploy — history is lost unless workspace retention is set; historical data cannot be recovered | < 5 min (new LAW) |
 | RBAC assignments | Re-apply via IaC — no data loss | < 5 min |
 
-!!! important "Back up Key Vault"
-    Key Vault backup is not automatic. Use `Backup-AzKeyVaultSecret` or the Azure CLI equivalent to back up each secret after provisioning. Store backups in a separate storage account, not in the Key Vault itself. If Key Vault is lost without a backup, all secrets must be regenerated and Phase 2 re-run from scratch.
-
+> [!IMPORTANT]
+> **Back up Key Vault**
+> Key Vault backup is not automatic. Use `Backup-AzKeyVaultSecret` or the Azure CLI equivalent to back up each secret after provisioning. Store backups in a separate storage account, not in the Key Vault itself. If Key Vault is lost without a backup, all secrets must be regenerated and Phase 2 re-run from scratch.
+>
 ### Session Host Recovery
 
 Session hosts are stateless. All user state lives in FSLogix profile containers on the SOFS. Session host recovery is a re-provisioning from the golden image — Phase 3 + Phase 4 re-run against the existing host pool.

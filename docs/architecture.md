@@ -92,9 +92,10 @@ The diagram above shows the full end-to-end architecture — End Users connect v
 | **Active Directory Domain Services (AD DS)** | Traditional on-premises domain; session hosts domain-joined |
 | **AD DS + Entra ID Hybrid Join** (Recommended) | Hybrid join using Entra Connect; supports Conditional Access and SSO via `AADLoginForWindows` extension |
 
-!!! warning "Azure Local Constraint"
-    Entra-only join is **NOT supported** on Azure Local. Arc-enabled VMs (`Microsoft.HybridCompute/machines`) do not support Entra-only join. Only AD-Only and Hybrid Join are valid identity strategies.
-
+> [!WARNING]
+> **Azure Local Constraint**
+> Entra-only join is **NOT supported** on Azure Local. Arc-enabled VMs (`Microsoft.HybridCompute/machines`) do not support Entra-only join. Only AD-Only and Hybrid Join are valid identity strategies.
+>
 ---
 
 ## Network Considerations

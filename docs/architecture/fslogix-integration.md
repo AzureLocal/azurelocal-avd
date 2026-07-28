@@ -6,9 +6,10 @@ FSLogix profile containers are the only persistent user state in this architectu
 
 ## Profile Container Model Selection
 
-!!! tip "Diagram source"
-    Draw.io source: `docs/assets/diagrams/avd-fslogix-profile-selection.drawio`. Export → PNG → `docs/assets/images/avd-fslogix-profile-selection.png`.
-
+> [!TIP]
+> **Diagram source**
+> Draw.io source: `docs/assets/diagrams/avd-fslogix-profile-selection.drawio`. Export → PNG → `docs/assets/images/avd-fslogix-profile-selection.png`.
+>
 ![FSLogix Profile Selection — VHDX on SOFS vs Cloud Cache](../assets/images/avd-fslogix-profile-selection.png)
 
 Two container delivery models are supported. The choice is permanent for a given host pool — switching from VHDX on SOFS to Cloud Cache requires re-mounting every active profile container against the new location, which is a maintenance window operation.
@@ -44,9 +45,10 @@ All 5 steps use credentials already in the user's Kerberos token — no storage 
 
 Cloud Cache replaces `VHDLocations` with `CCDLocations`. FSLogix maintains a local read/write cache on the session host's OS disk and asynchronously flushes writes to all configured cloud providers (Azure Files, Azure Blob).
 
-!!! warning "2–3× write amplification"
-    Every profile write is written to the local cache AND flushed to every CCDLocations provider before sign-out completes. During logon storms, flush latency accumulates. Monitor the `CCDWriteBehindDelay` registry value and set it conservatively (default: 1000 ms). If flush does not complete before sign-out, you risk cache/cloud divergence.
-
+> [!WARNING]
+> **2–3× write amplification**
+> Every profile write is written to the local cache AND flushed to every CCDLocations provider before sign-out completes. During logon storms, flush latency accumulates. Monitor the `CCDWriteBehindDelay` registry value and set it conservatively (default: 1000 ms). If flush does not complete before sign-out, you risk cache/cloud divergence.
+>
 | Characteristic | Detail |
 |----------------|--------|
 | **Authentication** | Azure Files: Kerberos via Entra Kerberos or storage account key; Blob: SAS or managed identity |
@@ -115,9 +117,10 @@ The 1.4× multiplier accounts for:
 | 500 users | 30 GB | 500 × 30 × 1.4 | 21.0 TB |
 | 500 users | 30 GB main + 15 GB ODFC | 500 × 45 × 1.4 | 31.5 TB (two volumes) |
 
-!!! danger "Do not thin-provision below the 30% buffer"
-    FSLogix VHDX containers use dynamic expansion. When the underlying CSV volume fills past ~85% capacity, dynamic expansion stalls and the VHDX goes read-only. Users immediately lose their active desktop session. The session host cannot sign the user out cleanly because the profile is read-only. Plan for 30% free space headroom at all times and set CSV volume alerts at 70% full.
-
+> [!CAUTION]
+> **Do not thin-provision below the 30% buffer**
+> FSLogix VHDX containers use dynamic expansion. When the underlying CSV volume fills past ~85% capacity, dynamic expansion stalls and the VHDX goes read-only. Users immediately lose their active desktop session. The session host cannot sign the user out cleanly because the profile is read-only. Plan for 30% free space headroom at all times and set CSV volume alerts at 70% full.
+>
 ### Monitoring VHDX Growth
 
 After 30 days of production use, review actual VHDX sizes:
@@ -135,9 +138,10 @@ If median VHDX size is significantly above baseline, investigate: Teams cache, O
 
 ## SOFS and SMB Configuration
 
-!!! tip "SOFS infrastructure"
-    The SOFS guest cluster design, CSV volumes, and deployment phases are covered in the companion repository. See: [azurelocal-sofs-fslogix](https://github.com/AzureLocal/azurelocal-sofs-fslogix).
-
+> [!TIP]
+> **SOFS infrastructure**
+> The SOFS guest cluster design, CSV volumes, and deployment phases are covered in the companion repository. See: [azurelocal-sofs-fslogix](https://github.com/AzureLocal/azurelocal-sofs-fslogix).
+>
 <figure markdown="span">
   ![SOFS Deployment Phases](../assets/images/sofs-deployment-phases.png)
   <figcaption>SOFS guest cluster deployment phases — from the companion repository. Phases 1–4 must complete before FSLogix shares are available.</figcaption>
@@ -195,9 +199,9 @@ FSLogix creates per-user subdirectories automatically when a user first signs in
 | `SYSTEM` | This folder, subfolders, files | Full Control | FSLogix service account |
 | `Authenticated Users` | This folder only | List Folder / Read Attributes | Allows FSLogix to navigate to the root to create/find the user directory; does NOT grant access to other users' subfolders |
 
-!!! important
-    Do not grant `Authenticated Users` read/write on subfolders — this allows users to browse and access other users' profile directories. The `This folder only` scope on the root is the critical constraint.
-
+> [!IMPORTANT]
+> Do not grant `Authenticated Users` read/write on subfolders — this allows users to browse and access other users' profile directories. The `This folder only` scope on the root is the critical constraint.
+>
 ---
 
 ## FSLogix Registry Baseline
@@ -218,9 +222,10 @@ Understand what each registry value does before deploying. Defaults that are wro
 | `PreventLoginWithFailure` | DWORD | `1` | Block sign-in entirely if the profile VHDX cannot mount, rather than falling back to a local temporary profile. Prevents users from working in an unprotected temporary session without knowing it |
 | `PreventLoginWithTempProfile` | DWORD | `1` | Companion to above — ensures temporary profiles are blocked at the policy level |
 
-!!! important "Set PreventLoginWithFailure = 1 in production"
-    The default (0) allows a local temporary profile when the VHDX mount fails. Users working in temporary profiles lose all session state at sign-out. They will not notice — until three hours of work disappears. Block the sign-in instead and fix the mount failure.
-
+> [!IMPORTANT]
+> **Set PreventLoginWithFailure = 1 in production**
+> The default (0) allows a local temporary profile when the VHDX mount fails. Users working in temporary profiles lose all session state at sign-out. They will not notice — until three hours of work disappears. Block the sign-in instead and fix the mount failure.
+>
 ### Profile Registry Keys
 
 ```powershell
@@ -292,9 +297,10 @@ foreach ($v in $odfc_values) {
 
 ## Antivirus and Performance Exclusions
 
-!!! danger "Wrong exclusions cause profile corruption"
-    If Defender scans an attached VHDX while FSLogix is writing to it, the scan can lock the file mid-write and corrupt the container. The user cannot sign in until the VHDX is recovered or restored from backup. Apply the exclusions below before rolling out to production.
-
+> [!CAUTION]
+> **Wrong exclusions cause profile corruption**
+> If Defender scans an attached VHDX while FSLogix is writing to it, the scan can lock the file mid-write and corrupt the container. The user cannot sign in until the VHDX is recovered or restored from backup. Apply the exclusions below before rolling out to production.
+>
 These exclusions must be configured via Group Policy or Intune — do not apply them manually to individual session hosts (they will be lost on re-image).
 
 ### Process Exclusions

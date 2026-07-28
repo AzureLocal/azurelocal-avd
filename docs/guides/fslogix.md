@@ -163,9 +163,10 @@ backup:
     retention_monthly: 12
 ```
 
-!!! info "Cloud Cache"
-    FSLogix Cloud Cache (`CCDLocations`) is a **separate optional add-on** that can be layered on top of any topology. It caches VHDx data locally on the session host and asynchronously replicates to multiple SMB targets. Cloud Cache is NOT a primary topology — it is configured independently when multi-site active-active access is required. See the [azurelocal-sofs-fslogix docs](https://github.com/AzureLocal/azurelocal-sofs-fslogix) for Cloud Cache configuration.
-
+> [!NOTE]
+> **Cloud Cache**
+> FSLogix Cloud Cache (`CCDLocations`) is a **separate optional add-on** that can be layered on top of any topology. It caches VHDx data locally on the session host and asynchronously replicates to multiple SMB targets. Cloud Cache is NOT a primary topology — it is configured independently when multi-site active-active access is required. See the [azurelocal-sofs-fslogix docs](https://github.com/AzureLocal/azurelocal-sofs-fslogix) for Cloud Cache configuration.
+>
 **Best for:** Production environments requiring data protection, compliance with backup retention policies, disaster recovery across sites.
 
 ---
@@ -189,9 +190,10 @@ FSLogix requires a specific permission model on the SMB share. Get this wrong an
 | `AVD Users Group` | Modify | **This folder only** | Allows users to create their top-level profile folder. Does NOT grant access to other users' folders. |
 | `BUILTIN\Administrators` | Full Control | **This folder, subfolders, and files** | Admin access for troubleshooting. |
 
-!!! warning "Common Mistake"
-    Do NOT give `AVD Users` permissions on subfolders/files. That would allow users to read each other's VHDx files. The `CREATOR OWNER` approach ensures isolation.
-
+> [!WARNING]
+> **Common Mistake**
+> Do NOT give `AVD Users` permissions on subfolders/files. That would allow users to read each other's VHDx files. The `CREATOR OWNER` approach ensures isolation.
+>
 ---
 
 ## What Each IaC Tool Deploys — Resource by Resource
